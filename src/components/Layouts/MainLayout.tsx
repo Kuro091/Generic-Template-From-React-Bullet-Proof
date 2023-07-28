@@ -1,4 +1,4 @@
-import React from 'react';
+import { Navbar } from '../Elements/Navbar';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -10,6 +10,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         flexDirection: 'column',
       }}
     >
+      <Navbar />
       {children}
     </main>
   );
