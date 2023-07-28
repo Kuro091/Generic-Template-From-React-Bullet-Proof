@@ -1,4 +1,4 @@
-import { Navbar } from '../Elements/Navbar';
+import { Navigation } from '@/components/Elements/Navigation';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -10,8 +10,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         flexDirection: 'column',
       }}
     >
-      <Navbar />
-      {children}
+      <Navigation>{children}</Navigation>
     </main>
   );
 };

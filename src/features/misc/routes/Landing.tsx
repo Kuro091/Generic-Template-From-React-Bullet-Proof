@@ -9,7 +9,6 @@ const Landing = () => {
 
   return (
     <MainLayout>
-      Content here
       <Tabs data={services} />
     </MainLayout>
   );
