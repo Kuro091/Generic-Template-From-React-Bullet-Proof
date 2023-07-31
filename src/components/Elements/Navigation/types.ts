@@ -1,4 +1,6 @@
 export interface NavigationItem {
   label: string;
-  onClick: () => void;
+  to: string;
+  onClick?: () => void;
+  url?: string;
 }
