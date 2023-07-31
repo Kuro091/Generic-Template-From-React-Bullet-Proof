@@ -22,9 +22,9 @@ const Navigation = ({ children }: NavigationProps) => {
 
   return (
     <>
-      <div className='drawer'>
+      <div className='drawer h-full'>
         <input id={drawerId} type='checkbox' className='drawer-toggle' />
-        <div className='drawer-content flex flex-col'>
+        <div className='drawer-content flex flex-col h-full'>
           <Navbar items={testLinks} drawerId={drawerId} />
           {children}
         </div>
