@@ -9,7 +9,9 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <React.Suspense
       fallback={
-        <div className='flex items-center justify-center w-screen h-screen'>Spinner here...</div>
+        <div className='flex items-center justify-center w-screen h-screen'>
+          <span className='loading loading-infinity loading-lg'></span>
+        </div>
       }
     >
       <Router>{children}</Router>
