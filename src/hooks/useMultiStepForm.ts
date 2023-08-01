@@ -1,6 +1,11 @@
 import { ReactElement, useState } from "react"
+import { UseFormRegisterReturn } from 'react-hook-form'
 
-export function useMultistepForm(steps: ReactElement[]) {
+interface ReactElementWithHookFormRegister {
+  register: Partial<UseFormRegisterReturn>
+}
+
+export function useMultistepForm(steps: ReactElement<ReactElementWithHookFormRegister>[]) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
 
   function next() {

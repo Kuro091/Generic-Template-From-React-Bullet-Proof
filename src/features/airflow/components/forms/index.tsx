@@ -1,76 +1,108 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { Source, SourceForm } from './SourceForm';
 import { Destination, DestinationForm } from './DestinationForm';
 import { Setting, SettingForm } from './SettingForm';
-import { useMultistepForm } from '@/hooks/useMultiStepForm';
 import { Form } from '@/components/Form';
+import { DaisyTabs, Tab } from '@/components/Elements/DaisyTabs';
+import { FieldValues, UseFormRegister, useForm } from 'react-hook-form';
 
-type FormData = Source & Destination & Setting;
+type FormData = {
+  source: Source;
+  destination: Destination;
+  setting: Setting;
+};
 
 const defaultValues: FormData = {
-  connection: '',
-  script: '',
-  param: '',
-  format: [],
-  cpu: 1,
-  ram: 1,
-  batch: 1,
-  schedule: '',
-  batchSize: 1,
-  isActive: false,
+  source: {
+    connection: '',
+    script: '',
+    param: '',
+  },
+  destination: {
+    connection: '',
+    format: [],
+    param: '',
+  },
+  setting: {
+    cpu: 0,
+    ram: 0,
+    batch: 0,
+    schedule: '',
+    batchSize: 0,
+    isActive: false,
+  },
 };
 
 export const MainForm = () => {
-  // switch to use zustand later
-  const [formData, setFormData] = useState<FormData>(defaultValues);
-  function updateFields(fields: Partial<FormData>) {
-    setFormData((prev) => {
-      return { ...prev, ...fields };
-    });
+  const [activeTab, setActiveTab] = useState(0);
+  const { register, watch, handleSubmit, reset, getValues } = useForm<FormData>({
+    defaultValues,
+  });
+
+  const renderTabsWithHookForm: <T extends FieldValues>(register: UseFormRegister<T>) => Tab[] = (
+    register
+  ) => {
+    return [
+      {
+        name: 'Source',
+        active: activeTab === 0,
+        onClick: () => changeTab(0),
+        render: () => (
+          <SourceForm hookFormRegister={register} onTestConnection={handleTestSourceConnection} />
+        ),
+      },
+      {
+        name: 'Destination',
+        active: activeTab === 1,
+        onClick: () => changeTab(1),
+        render: () => <DestinationForm hookFormRegister={register} />,
+      },
+      {
+        name: 'Setting',
+        active: activeTab === 2,
+        onClick: () => changeTab(2),
+        render: () => <SettingForm hookFormRegister={register} />,
+      },
+    ];
+  };
+
+  const tabs = renderTabsWithHookForm(register);
+
+  function changeTab(index: number) {
+    setActiveTab(index);
   }
 
-  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } = useMultistepForm([
-    <SourceForm {...formData} updateFields={updateFields} />,
-    <DestinationForm {...formData} updateFields={updateFields} />,
-    <SettingForm {...formData} updateFields={updateFields} />,
-  ]);
+  const handleTestSourceConnection = () => {
+    const values = getValues();
+    alert(`Gonna test with these values: \n ${JSON.stringify(values.source, null, 2)}`);
+  };
 
   function onSubmit(e: FormData) {
-    if (!isLastStep) return next();
-    alert('Done!!');
+    alert(`Recorded values: \n ${JSON.stringify(e, null, 2)}`);
   }
 
   return (
     <>
-      <Form<FormData>
-        onSubmit={(val) => {
-          onSubmit(val);
-        }}
-      >
-        {({ register }) => (
-          <>
-            <div>
-              {currentStepIndex + 1} / {steps.length}
-            </div>
-            {step}
-            <div
-              style={{
-                marginTop: '1rem',
-                display: 'flex',
-                gap: '.5rem',
-                justifyContent: 'flex-end',
-              }}
-            >
-              {!isFirstStep && (
-                <button type='button' onClick={back}>
-                  Back
-                </button>
-              )}
-              <button type='submit'>{isLastStep ? 'Finish' : 'Next'}</button>
-            </div>
-          </>
-        )}
-      </Form>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <DaisyTabs tabs={tabs} />
+        <div className='flex gap-x-2'>
+          <button
+            className='btn btn-primary mt-10 font-bold py-12 grid place-content-center text-2xl rounded-md  flex-1'
+            type='submit'
+          >
+            Save changes
+          </button>
+          <button
+            className='btn btn-accent mt-10 font-bold py-12 grid place-content-center text-2xl rounded-md  flex-1'
+            type='reset'
+            onClick={() => {
+              reset();
+            }}
+          >
+            Cancel/Clear
+          </button>
+        </div>
+      </form>
     </>
   );
 };

@@ -8,15 +8,22 @@ type FieldWrapperProps = {
   children: React.ReactNode;
   error?: FieldError | undefined;
   description?: string;
+  inline?: boolean;
 };
 
 export type FieldWrapperPassThroughProps = Omit<FieldWrapperProps, 'className' | 'children'>;
 
 export const FieldWrapper = (props: FieldWrapperProps) => {
-  const { label, className, error, children } = props;
+  const { label, className, error, children, inline = false } = props;
   return (
-    <div>
-      <label className={clsx('block text-sm font-medium text-gray-700', className)}>
+    <>
+      <label
+        className={clsx(
+          'block text-sm font-medium text-slate-200',
+          `${inline && 'flex gap-x-4'}`,
+          className
+        )}
+      >
         {label}
         <div className='mt-1'>{children}</div>
       </label>
@@ -25,6 +32,6 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
           {error.message}
         </div>
       )}
-    </div>
+    </>
   );
 };
