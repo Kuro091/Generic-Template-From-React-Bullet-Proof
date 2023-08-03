@@ -23,4 +23,16 @@ export const serviceConfigs = [
     url: 'http://192.168.1.59:30901',
     route: '/minio'
   },
+  {
+    name: 'Gitlab',
+    description: 'Gitlab',
+    url: 'http://192.168.1.59:30901',
+    route: '/gitlab'
+  },
+  {
+    name: 'Jenkins',
+    description: 'Jenkins',
+    url: 'http://192.168.1.59:30901',
+    route: '/jenkins'
+  },
 ];

@@ -4,6 +4,8 @@ const { AirFlowRoutes } = lazyImport(() => import('@/features/airflow'), 'AirFlo
 const { K8SRoutes } = lazyImport(() => import('@/features/k8s'), 'K8SRoutes');
 const { MinIORoutes } = lazyImport(() => import('@/features/minio'), 'MinIORoutes');
 const { VaultRoutes } = lazyImport(() => import('@/features/vault'), 'VaultRoutes');
+const { JenkinsRoutes } = lazyImport(() => import('@/features/jenkins'), 'JenkinsRoutes');
+const { GitLabRoutes } = lazyImport(() => import('@/features/gitlab'), 'GitLabRoutes');
 
 export const publicRoutes = [
   {
@@ -21,5 +23,13 @@ export const publicRoutes = [
   {
     path: '/vault/*',
     element: <VaultRoutes />,
+  },
+  {
+    path: '/gitlab/*',
+    element: <GitLabRoutes />,
+  },
+  {
+    path: '/jenkins/*',
+    element: <JenkinsRoutes />,
   },
 ];
