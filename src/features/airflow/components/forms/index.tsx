@@ -3,8 +3,8 @@ import { Source, SourceForm } from './SourceForm';
 import { Destination, DestinationForm } from './DestinationForm';
 import { Setting, SettingForm } from './SettingForm';
 import { Form } from '@/components/Form';
-import { DaisyTabs, Tab } from '@/components/Elements/DaisyTabs';
 import { FieldValues, UseFormRegister, useForm } from 'react-hook-form';
+import { DaisyTabs } from '@/components/Elements/UIWithLib/DaisyTabs';
 
 type FormData = {
   source: Source;
